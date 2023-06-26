@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite" allow-return-values="true">
+
+<listeners>
+	
+	<listener class-name="TestListener.Listener"></listener>
+</listeners>
+
+  <test thread-count="5" name="Test">
+  	<parameter name="URL" value="https://user.mockplus.com/signin?next=https%3A%2F%2Fwww.mockplus.com%2F"/>
+  	
+  	<classes>
+  		
+  		<class name="UserLogin.Configuring">
+  			<methods>
+  				<include name="Gettitle"></include>
+    			</methods>
+  		</class>
+  		
+  		
+  	
+  	</classes>
+  
+  </test>
+  	
+  
+  
+ 
+  
+</suite> <!-- Suite -->

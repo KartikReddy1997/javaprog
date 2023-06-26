@@ -1,0 +1,50 @@
+import java.util.Random;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Login {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	WebDriverManager.chromedriver().setup();
+	WebDriver driver=new ChromeDriver();
+	
+	driver.get("https://www.saucedemo.com/");
+
+	String id=driver.findElement(By.xpath("//*[@id=\"login_credentials\"]")).getText();
+	String pass=driver.findElement(By.xpath("//div[@class=\"login_password\"]")).getText();
+	
+	String[] usernamesArray = id.split("\\r?\\n");
+	String[] passArray = pass.split("\\r?\\n");
+	// Generate a random index
+	Random random = new Random();
+	int randomIndex = random.nextInt(usernamesArray.length-1)+1;
+
+	// Extract the random username
+	String randomUsername = usernamesArray[randomIndex];
+
+	// Print the random username
+	System.out.println("Username: " + randomUsername+"      password :"+ passArray[1]);
+	
+	logIn(driver,randomUsername,passArray[1]);
+	
+	
+	driver.quit();
+	
+	
+	}
+	
+	public static void logIn(WebDriver driver,String username, String passowrd) {
+		
+		driver.findElement(By.id("user-name")).sendKeys(username);
+		driver.findElement(By.id("password")).sendKeys(passowrd);
+		driver.findElement(By.id("login-button")).click();
+	}
+
+}

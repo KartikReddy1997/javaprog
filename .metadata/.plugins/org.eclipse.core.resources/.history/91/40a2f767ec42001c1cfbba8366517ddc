@@ -1,0 +1,148 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Iterator;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
+
+public class FacebookLogin extends CreatingDriver {
+static int img=1;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		
+		
+
+		FacebookLogin x=new FacebookLogin();
+		WebDriver driver=x.set(5);
+		//driver.get("https://www.facebook.com");
+		driver.get("https://www.mockplus.com");
+		
+		FileInputStream fis=new FileInputStream("D:\\selenium\\Datasheet\\Userlogin.xlsx");
+		XSSFWorkbook workbook=new XSSFWorkbook(fis);
+		XSSFSheet sheet=getSheet(workbook);
+		
+		int pwdIndex=0,mailIndex=0;
+		Iterator<Row> rows=sheet.iterator();
+		Row firstrow=rows.next();
+		
+		mailIndex=getrowcount(firstrow,"Mail Id");
+		pwdIndex=getrowcount(firstrow,"Pwd");
+
+		driver.findElement(By.cssSelector("a[class=\"login\"]")).click();
+		for(int i=0;i<5;i++) {
+		String mail=getvalue(sheet,mailIndex,i);
+		String pwd=getvalue(sheet,pwdIndex,i);
+		
+		
+		driver.findElement(By.xpath("//input[@id='email']")).sendKeys(mail);
+		driver.findElement(By.xpath("//input[@id='password']")).sendKeys(pwd);
+		driver.findElement(By.xpath("//button[@id='login']")).click();
+		Thread.sleep(2000);
+		String msg=driver.findElement(By.cssSelector(".error-message")).getText();
+		if(msg.equalsIgnoreCase("The email address is not registered"))
+		{
+			takeScreenshot(driver);
+			driver.findElement(By.xpath("//input[@id='email']")).clear();
+			driver.findElement(By.xpath("//input[@id='password']")).clear();
+			
+			}
+		}
+	//	System.out.println(msg);
+		
+		
+		
+		/*	driver.findElement(By.xpath("//input[@name='email']")).sendKeys(mail);
+		driver.findElement(By.xpath("//input[@name='pass']")).sendKeys(pwd);
+		driver.findElement(By.xpath("//button[@name='login']")).click();
+		 Thread.sleep(5000);
+		
+		String msg=driver.findElement(By.xpath("//*[@id=\"email_container\"]/div[2]/text()")).getText();
+			System.out.println(msg);
+		*/
+		
+	
+	}
+
+	
+	
+	public static XSSFSheet getSheet(XSSFWorkbook workbook) {
+		int count=workbook.getNumberOfSheets();
+		XSSFSheet a = null;
+		
+		for(int i=0;i<count;i++) {
+			//System.out.println(workbook.getSheetName(i));
+			if(workbook.getSheetName(i).equalsIgnoreCase("logindetails")) {
+				
+				a=workbook.getSheetAt(i);
+				break;
+			}
+			
+		}
+		return a;
+		
+	}
+	
+	public static int getrowcount(Row firstrow,String rowvalue) {
+		int row=0;
+		Iterator<Cell> cells=firstrow.cellIterator();
+		
+	while(cells.hasNext()){
+			
+			Cell value=cells.next();
+			//System.out.println("cell="+value.getStringCellValue());
+			
+			
+			if(value.getStringCellValue().equalsIgnoreCase(rowvalue)) {
+				break;		
+			}
+			
+			row++;
+		}
+		
+		return row;
+	}
+
+	public static String getvalue(XSSFSheet x,int index,int user) {
+		String m=Integer.toString(user);
+		
+		String value="";
+		Iterator<Row> rows=x.iterator();
+		rows.next();
+		
+		
+			while(rows.hasNext()){
+			
+			Row r=rows.next();
+			//System.out.println("cell="+r.getCell(k).getStringCellValue());
+			String s=Integer.toString((int) r.getCell(0).getNumericCellValue());
+			if(s.equalsIgnoreCase(m)) {
+				//Iterator<Cell> c=r.cellIterator();
+							value=r.getCell(index).getStringCellValue();
+				break;
+			}
+			
+			
+			}
+		
+		
+		return(value);
+	}
+
+	public static void takeScreenshot(WebDriver driver) throws IOException {
+		
+		String s="D:\\selenium\\Screenshots\\image"+img+".png";
+		File src=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(src,new File(s));
+		img++;
+	}
+
+}
+

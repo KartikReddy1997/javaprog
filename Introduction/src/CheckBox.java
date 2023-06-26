@@ -1,0 +1,32 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class CheckBox {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "D:\\Chromedriver\\chromedriver.exe");
+		
+		WebDriver driver=new ChromeDriver();
+		/*	
+		driver.get("https://rahulshettyacademy.com/dropdownsPractise");
+		System.out.println(driver.findElement(By.name("ctl00$mainContent$chk_SeniorCitizenDiscount")).isSelected());
+	
+		System.out.println("no of check boxes:"+driver.findElements(By.xpath("//input[@type='checkbox']")).size());
+		
+		Assert.assertFalse(driver.findElement(By.name("ctl00$mainContent$chk_SeniorCitizenDiscount")).isSelected());
+*/
+		//AssertTrue if check box is selected the script will pass and run or gets terminated if checkbox is not true vice versa for Assertfalse;
+		
+			driver.get("https://www.india.gov.in/user/register");
+		
+		System.out.println(driver.findElement(By.name("profile_main[field__subscribe_to_our_newslett][und][Yes]")).getText());
+		driver.findElement(By.name("profile_main[field__subscribe_to_our_newslett][und][Yes]")).click();
+		System.out.println("no of check boxes:"+driver.findElements(By.xpath("//input[@type='checkbox']")).size());
+		Assert.assertTrue(driver.findElement(By.name("profile_main[field__subscribe_to_our_newslett][und][Yes]")).isSelected());
+		driver.findElement(By.name("profile_main[field__subscribe_to_our_newslett][und][Yes]")).click();
+		Assert.assertFalse(driver.findElement(By.name("profile_main[field__subscribe_to_our_newslett][und][Yes]")).isSelected());
+	}
+
+}

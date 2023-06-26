@@ -1,0 +1,25 @@
+package practice;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Qkart {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chrome.driver", "D:\\Chromedriver\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://crio-qkart-frontend-qa.vercel.app/");
+		  driver.findElement(By.xpath(
+                  "//input[@name='search']")).clear();
+          driver.findElement(By.xpath("//input[@name='search']")).sendKeys("running shoes");
+
+          boolean x=false,y=false;
+          x = driver.findElement(By.xpath("//button[text()='Size chart']")).isDisplayed();
+          y = driver.findElement(By.xpath("//button[text()='Size chart']")).getText().equalsIgnoreCase("Size chart");
+                  System.out.println("is displayed "+x+" Text check"+y);
+          
+	}
+
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test thread-count="5" name="Test">
+    <classes>
+      <class name="Pack.Test1">
+      </class>
+      
+      <class name="Pack.Test2">
+      	<methods>
+      		<include name="Testcase1"></include>
+      		<include name="Testcase2"></include>
+      	</methods>
+      </class>
+    </classes>
+   </test>
+    
+  <test name="cars">
+    <classes>
+    	<class name="Pack.Cars">
+        	<methods>
+    			<include name="Car1"/>
+    			
+    			
+    		</methods>
+    	</class>
+    	
+    	<class name="Pack.Test2">
+    		<methods>
+    			<include name="Testcase3"/>
+    		</methods>
+    	</class>
+    </classes>
+   </test>
+  <!-- Test -->
+</suite> <!-- Suite -->

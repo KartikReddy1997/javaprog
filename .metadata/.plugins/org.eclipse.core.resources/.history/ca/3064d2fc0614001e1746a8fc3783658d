@@ -1,0 +1,57 @@
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Flipkart {
+	
+	//WebdDriver declared globally to be accessed in methods too
+	public static WebDriver driver;
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		WebDriverManager.chromedriver().setup();
+		
+		 driver=new ChromeDriver();
+		driver.get("https://www.flipkart.com/");
+		
+		//if sometimes the popup doesn't displayed
+		// Attempt to close the popup if it is present 
+		  try {
+	            driver.findElement(By.xpath("//button[@class='_2KpZ6l _2doB4z']")).click();
+	        } catch (NoSuchElementException e) {
+	            // Handle the exception if the close button is not found
+	            System.out.println("Popup not found. Continuing with the flow.");
+	        }
+		search("pen");
+		
+		addToCart();
+		driver.quit();
+		
+	}
+	
+	
+	public static void search(String product) {
+				
+		driver.findElement(By.xpath("//input[@type='text']")).sendKeys(product);
+		driver.findElement(By.xpath("//button[@type=\"submit\"]")).click();
+	}
+	
+	
+	public static void addToCart() {
+		
+		List <WebElement> items=driver.findElements(By.className("._4ddWXP"));
+		for(WebElement i:items) {
+			System.out.println(i.getText());
+		}
+		
+	}
+
+}
