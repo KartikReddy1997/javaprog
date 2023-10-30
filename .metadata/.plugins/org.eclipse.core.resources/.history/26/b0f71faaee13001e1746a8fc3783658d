@@ -1,0 +1,22 @@
+
+public class Flipkart {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+WebDriverManager.chromedriver().setup();
+		
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://www.flipkart.com/");
+		search("pen");
+		
+	}
+	
+	
+	public static void search(String product) {
+		
+		WebDriver driver = null ;
+		driver.findElement(By.xpath("//input[@type='text']")).sendKeys(product);
+	}
+
+}
